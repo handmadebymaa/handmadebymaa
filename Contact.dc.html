@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+  @keyframes fadeUp { from { opacity:0; transform:translateY(18px);} to { opacity:1; transform:translateY(0);} }
+  @keyframes popIn { from { opacity:0; transform:scale(.92);} to { opacity:1; transform:scale(1);} }
+  body { margin:0; background:#fef5ee; -webkit-font-smoothing:antialiased; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
+  body { overflow-x:hidden; -webkit-tap-highlight-color:transparent; }
+  ::selection { background:#b67a88; color:#fef5ee; }
+  img { max-width:100%; }
+  @media (max-width:420px) {
+    section { padding-left:20px !important; padding-right:20px !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family:'Jost',sans-serif;color:#6b5c63;background:#fef5ee;min-height:100vh;">
+
+  <div ref="{{ setCursorRef }}" style="position:fixed;top:0;left:0;width:30px;height:30px;margin-left:-15px;margin-top:-15px;border-radius:50%;border:1px solid rgba(107,92,99,0.55);pointer-events:none;z-index:9999;opacity:0.7;"></div>
+
+  <!-- NAV -->
+  <div style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px clamp(16px,5vw,56px);background:rgba(254,245,238,0.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(107,92,99,0.08);">
+    <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#6b5c63;">
+      <img src="assets/logo.jpeg" alt="Handmade by Maa" style="width:clamp(44px,9vw,60px);height:clamp(44px,9vw,60px);object-fit:contain;"/>
+      <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;">
+        <span style="font-family:'Alex Brush',cursive;font-size:clamp(22px,4.5vw,30px);color:#6b5c63;line-height:1;">Handmade</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(13px,2.5vw,16px);color:#6b5c63;">by Maa</span>
+      </span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,3vw,34px);">
+        <a href="Home.dc.html" style="font-size:13px;letter-spacing:.04em;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Home</a>
+        <a href="Gallery.dc.html" style="font-size:13px;letter-spacing:.04em;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Gallery</a>
+        <a href="Contact.dc.html" style="font-size:13px;letter-spacing:.04em;color:#6b5c63;text-decoration:none;border-bottom:1px solid #6b5c63;padding-bottom:2px;">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" aria-label="Instagram" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);display:flex;align-items:center;justify-content:center;color:#6b5c63;text-decoration:none;transition:background .25s ease, border-color .25s ease;" style-hover="background:rgba(182,122,136,0.12);border-color:#b67a88;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>
+        </a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Open menu" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b5c63" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:150;background:rgba(107,92,99,0.35);">
+      <div onClick="{{ stopProp }}" style="position:absolute;top:0;right:0;height:100%;width:min(300px,82vw);background:#fef5ee;box-shadow:-10px 0 30px rgba(107,92,99,0.2);padding:28px 28px 40px;display:flex;flex-direction:column;gap:6px;">
+        <button onClick="{{ closeMenu }}" aria-label="Close menu" style="align-self:flex-end;width:36px;height:36px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:24px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b5c63" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+        </button>
+        <a href="Home.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Home</a>
+        <a href="Gallery.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Gallery</a>
+        <a href="Contact.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;">Instagram</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <section style="padding:170px clamp(24px,6vw,64px) 110px;max-width:640px;margin:0 auto;text-align:center;">
+
+      <!-- INFO -->
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);">
+        <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#a7a0a5;margin-bottom:16px;">Let's Connect</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin:0 0 24px;">Let's create something together.</h1>
+        <p style="font-size:15.5px;line-height:1.8;color:#6b5c63;margin:0 auto 36px;max-width:42ch;">Whether it's a custom piece, a question about an order, or just to say hello &mdash; reach out to us directly below.</p>
+
+        <div style="display:flex;flex-direction:column;gap:14px;text-align:left;">
+          <a href="https://wa.me/919426133161" target="_blank" rel="noopener" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .2s cubic-bezier(.2,.8,.2,1), border-color .2s;display:flex;align-items:center;gap:16px;text-decoration:none;color:#6b5c63;padding:16px 18px;background:#fff9f2;border:1px solid rgba(107,92,99,0.12);border-radius:8px;">
+            <span style="width:44px;height:44px;border-radius:50%;background:#b67a88;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12a8 8 0 1 1-3.8-6.8"></path><path d="M20.5 3.5 15 9"></path><path d="M12 8v4l2.5 2"></path></svg>
+            </span>
+            <span style="flex:1;">
+              <span style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a7a0a5;">WhatsApp</span>
+              <span style="display:block;font-size:14.5px;">+91 94261 33161</span>
+            </span>
+            <span style="font-size:12.5px;padding:8px 16px;border-radius:30px;background:#6b5c63;color:#fef5ee;white-space:nowrap;">Chat</span>
+          </a>
+
+          <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .2s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:16px;text-decoration:none;color:#6b5c63;padding:16px 18px;background:#fff9f2;border:1px solid rgba(107,92,99,0.12);border-radius:8px;">
+            <span style="width:44px;height:44px;border-radius:50%;background:#b67a88;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>
+            </span>
+            <span style="flex:1;">
+              <span style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a7a0a5;">Instagram</span>
+              <span style="display:block;font-size:14.5px;">handmadebymaa._</span>
+            </span>
+            <span style="font-size:12.5px;padding:8px 16px;border-radius:30px;background:#6b5c63;color:#fef5ee;white-space:nowrap;">Follow</span>
+          </a>
+
+          <a href="tel:+919426133161" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .2s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:16px;text-decoration:none;color:#6b5c63;padding:16px 18px;background:#fff9f2;border:1px solid rgba(107,92,99,0.12);border-radius:8px;">
+            <span style="width:44px;height:44px;border-radius:50%;background:#c9973f;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </span>
+            <span style="flex:1;">
+              <span style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a7a0a5;">Phone</span>
+              <span style="display:block;font-size:14.5px;">+91 94261 33161</span>
+            </span>
+            <span style="font-size:12.5px;padding:8px 16px;border-radius:30px;background:#6b5c63;color:#fef5ee;white-space:nowrap;">Call</span>
+          </a>
+
+          <a href="mailto:saihbm08@gmail.com" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .2s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:16px;text-decoration:none;color:#6b5c63;padding:16px 18px;background:#fff9f2;border:1px solid rgba(107,92,99,0.12);border-radius:8px;">
+            <span style="width:44px;height:44px;border-radius:50%;background:#b67a88;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></svg>
+            </span>
+            <span style="flex:1;min-width:0;">
+              <span style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a7a0a5;">Email</span>
+              <span style="display:block;font-size:14.5px;overflow-wrap:anywhere;">saihbm08@gmail.com</span>
+            </span>
+            <span style="font-size:12.5px;padding:8px 16px;border-radius:30px;background:#6b5c63;color:#fef5ee;white-space:nowrap;">Email</span>
+          </a>
+        </div>
+
+        <p style="font-size:13px;color:#a7a0a5;margin:30px 0 0;text-align:center;">A contact form is on the way &mdash; for now, reach us directly above.</p>
+      </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:56px clamp(24px,6vw,64px) 40px;border-top:1px solid rgba(107,92,99,0.1);">
+    <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <img src="assets/logo.jpeg" alt="Handmade by Maa logo" style="width:80px;height:80px;object-fit:contain;"/>
+        <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px;">
+          <span style="font-family:'Alex Brush',cursive;font-size:34px;color:#6b5c63;line-height:1;">Handmade</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#6b5c63;">by Maa</span>
+        </span>
+      </div>
+      <div style="display:flex;gap:26px;">
+        <a href="Home.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Home</a>
+        <a href="Gallery.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Gallery</a>
+        <a href="Contact.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">handmadebymaa._</a>
+      </div>
+      <div style="font-size:12px;color:#a7a0a5;">&copy; 2026 Handmade by Maa</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { isMobile: false, menuOpen: false };
+  revealEls = [];
+  addReveal = (el) => {
+    if (el && this.revealEls.indexOf(el) === -1) this.revealEls.push(el);
+  };
+  setCursorRef = (el) => { this.cursorRef = el; };
+  checkMobile = () => {
+    const isMobile = window.innerWidth < 760;
+    if (isMobile !== this.state.isMobile) this.setState({ isMobile });
+  };
+  toggleMenu = () => this.setState((s) => ({ menuOpen: !s.menuOpen }));
+  closeMenu = () => this.setState({ menuOpen: false });
+  stopProp = (e) => e.stopPropagation();
+
+  magnetMove = (e) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    el.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
+  };
+  magnetLeave = (e) => { e.currentTarget.style.transform = 'translate(0,0)'; };
+
+  checkReveals = () => {
+    const vh = window.innerHeight;
+    document.querySelectorAll('[data-reveal="true"]:not([data-revealed])').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh * 0.92 && rect.bottom > 0) {
+        el.dataset.revealed = '1';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        setTimeout(() => { el.style.transition = 'none'; }, 1100);
+      }
+    });
+  };
+
+  componentDidMount() {
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+
+    this.checkReveals();
+    window.addEventListener('scroll', this.checkReveals, { passive: true });
+    window.addEventListener('resize', this.checkReveals);
+    this._revealInterval = setInterval(this.checkReveals, 250);
+
+    this.cursorPos = { x: -100, y: -100 };
+    this.cursorTarget = { x: -100, y: -100 };
+    this._onMove = (e) => { this.cursorTarget.x = e.clientX; this.cursorTarget.y = e.clientY; };
+    window.addEventListener('mousemove', this._onMove);
+    const tick = () => {
+      this.cursorPos.x += (this.cursorTarget.x - this.cursorPos.x) * 0.18;
+      this.cursorPos.y += (this.cursorTarget.y - this.cursorPos.y) * 0.18;
+      if (this.cursorRef) this.cursorRef.style.transform = `translate(${this.cursorPos.x}px, ${this.cursorPos.y}px)`;
+      this.checkReveals();
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._revealInterval) clearInterval(this._revealInterval);
+    window.removeEventListener('scroll', this.checkReveals);
+    window.removeEventListener('resize', this.checkReveals);
+    window.removeEventListener('resize', this.checkMobile);
+    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
+  }
+
+  renderVals() {
+    return {
+      addReveal: this.addReveal,
+      setCursorRef: this.setCursorRef,
+      magnetMove: this.magnetMove,
+      magnetLeave: this.magnetLeave,
+      isMobile: this.state.isMobile,
+      isDesktop: !this.state.isMobile,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: this.toggleMenu,
+      closeMenu: this.closeMenu,
+      stopProp: this.stopProp,
+    };
+  }
+}
+</script>
+</body>
+</html>

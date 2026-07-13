@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+  @keyframes fadeUp { from { opacity:0; transform:translateY(18px);} to { opacity:1; transform:translateY(0);} }
+  @keyframes floaty { 0%,100% { transform:translateY(0) rotate(-3deg);} 50% { transform:translateY(-16px) rotate(-1deg);} }
+  @keyframes floaty2 { 0%,100% { transform:translateY(0);} 50% { transform:translateY(14px);} }
+  @keyframes spin-slow { from { transform:translate(-50%,-50%) rotate(0deg);} to { transform:translate(-50%,-50%) rotate(360deg);} }
+  @keyframes marquee { from { transform:translateX(0);} to { transform:translateX(-50%);} }
+  @keyframes threadOrbit { from { offset-distance:0%; } to { offset-distance:100%; } }
+  @keyframes breathe { 0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.06; } 50% { transform:translate(-50%,-50%) scale(1.04); opacity:0.09; } }
+  @keyframes shine { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+  @keyframes cuePulse { 0%,100% { opacity:0.35; height:44px; } 50% { opacity:0.9; height:60px; } }
+  @keyframes btnShine { 0%,15% { left:-60%; } 50%,100% { left:140%; } }
+  body { margin:0; background:#fef5ee; -webkit-font-smoothing:antialiased; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
+  body { overflow-x:hidden; -webkit-tap-highlight-color:transparent; }
+  ::selection { background:#b67a88; color:#fef5ee; }
+  img { max-width:100%; }
+  @media (max-width:420px) {
+    section { padding-left:20px !important; padding-right:20px !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family:'Jost',sans-serif;color:#6b5c63;background:#fef5ee;min-height:100vh;overflow-x:hidden;">
+
+  <!-- cursor ring -->
+  <div ref="{{ setCursorRef }}" style="position:fixed;top:0;left:0;width:30px;height:30px;margin-left:-15px;margin-top:-15px;border-radius:50%;border:1px solid rgba(107,92,99,0.55);pointer-events:none;z-index:9999;opacity:0.7;"></div>
+
+  <!-- NAV -->
+  <div ref="{{ setNavRef }}" style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px clamp(16px,5vw,56px);background:rgba(254,245,238,0.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(107,92,99,0.08);transition:box-shadow .3s ease, padding .3s ease;">
+    <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#6b5c63;">
+      <img src="assets/logo.jpeg" alt="Handmade by Maa" style="width:clamp(44px,9vw,60px);height:clamp(44px,9vw,60px);object-fit:contain;"/>
+      <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;">
+        <span style="font-family:'Alex Brush',cursive;font-size:clamp(22px,4.5vw,30px);color:#6b5c63;line-height:1;">Handmade</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(13px,2.5vw,16px);color:#6b5c63;">by Maa</span>
+      </span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,3vw,34px);">
+        <a href="Home.dc.html" style="font-size:13px;letter-spacing:.04em;color:#6b5c63;text-decoration:none;border-bottom:1px solid #6b5c63;padding-bottom:2px;">Home</a>
+        <a href="Gallery.dc.html" style="font-size:13px;letter-spacing:.04em;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Gallery</a>
+        <a href="Contact.dc.html" style="font-size:13px;letter-spacing:.04em;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" aria-label="Instagram" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);display:flex;align-items:center;justify-content:center;color:#6b5c63;text-decoration:none;transition:background .25s ease, border-color .25s ease;" style-hover="background:rgba(182,122,136,0.12);border-color:#b67a88;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>
+        </a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Open menu" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b5c63" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:150;background:rgba(107,92,99,0.35);">
+      <div onClick="{{ stopProp }}" style="position:absolute;top:0;right:0;height:100%;width:min(300px,82vw);background:#fef5ee;box-shadow:-10px 0 30px rgba(107,92,99,0.2);padding:28px 28px 40px;display:flex;flex-direction:column;gap:6px;">
+        <button onClick="{{ closeMenu }}" aria-label="Close menu" style="align-self:flex-end;width:36px;height:36px;border-radius:50%;border:1px solid rgba(107,92,99,0.25);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:24px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b5c63" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+        </button>
+        <a href="Home.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Home</a>
+        <a href="Gallery.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Gallery</a>
+        <a href="Contact.dc.html" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(107,92,99,0.1);">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#6b5c63;text-decoration:none;padding:12px 0;">Instagram</a>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- HERO -->
+  <section ref="{{ setHeroRef }}" style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:150px 20px 60px;overflow:hidden;">
+
+    <img src="assets/logo.jpeg" alt="" style="position:absolute;top:50%;left:50%;width:min(640px,70vw);opacity:0.06;transform:translate(-50%,-50%);pointer-events:none;animation:breathe 10s ease-in-out infinite;"/>
+    <div style="position:absolute;top:50%;left:50%;width:min(420px,46vw);height:min(420px,46vw);border:1.5px dashed rgba(107,92,99,0.32);border-radius:50%;transform:translate(-50%,-50%);animation:spin-slow 40s linear infinite;pointer-events:none;"></div>
+    <div style="position:absolute;top:50%;left:50%;width:min(540px,58vw);height:min(540px,58vw);border:1.5px dashed rgba(182,122,136,0.38);border-radius:50%;transform:translate(-50%,-50%);animation:spin-slow 55s linear infinite reverse;pointer-events:none;"></div>
+
+    <div style="position:absolute;top:50%;left:50%;width:min(420px,46vw);height:min(420px,46vw);transform:translate(-50%,-50%);pointer-events:none;">
+      <div style="position:absolute;width:8px;height:8px;border-radius:50%;background:#b67a88;box-shadow:0 0 10px rgba(182,122,136,0.55);offset-path:circle(50% at 50% 50%);animation:threadOrbit 16s linear infinite;"></div>
+    </div>
+    <div style="position:absolute;top:50%;left:50%;width:min(540px,58vw);height:min(540px,58vw);transform:translate(-50%,-50%);pointer-events:none;">
+      <div style="position:absolute;width:6px;height:6px;border-radius:50%;background:#a7a0a5;box-shadow:0 0 8px rgba(167,160,165,0.5);offset-path:circle(50% at 50% 50%);animation:threadOrbit 24s linear infinite reverse;"></div>
+    </div>
+    <div style="position:absolute;top:38%;left:12%;width:5px;height:5px;border-radius:50%;background:#b67a88;opacity:0.7;animation:floaty2 8.5s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:absolute;top:64%;right:8%;width:4px;height:4px;border-radius:50%;background:#a7a0a5;opacity:0.6;animation:floaty 10s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:absolute;top:22%;right:16%;width:8px;height:8px;border-radius:50%;background:#b67a88;animation:floaty2 6s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:30%;left:14%;width:6px;height:6px;border-radius:50%;background:#b67a88;animation:floaty 7.5s ease-in-out infinite;pointer-events:none;"></div>
+
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#a7a0a5;margin-bottom:22px;">Handmade &middot; Heartfelt &middot; Hand&#8209;Stitched</div>
+
+    <h1 data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .1s, transform .9s cubic-bezier(.2,.7,.2,1) .1s;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.6rem,6.4vw,5.4rem);line-height:1.05;margin:0 0 26px;max-width:16ch;">Blessed Hands,<br/><em style="font-style:italic;background:linear-gradient(90deg,#b67a88 0%,#d9a5b3 25%,#b67a88 50%,#8f5d69 75%,#b67a88 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;">Beautiful Creations</em></h1>
+
+    <p data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .2s, transform .9s cubic-bezier(.2,.7,.2,1) .2s;font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:#6b5c63;max-width:46ch;margin:0 0 40px;">A home-grown crochet studio turning simple skeins of yarn into bags, decor, and gifts &mdash; one mindful stitch at a time.</p>
+
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .3s, transform .9s cubic-bezier(.2,.7,.2,1) .3s;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+      <a href="#story" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="position:relative;overflow:hidden;transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;display:inline-block;padding:15px 32px;background:#6b5c63;color:#fef5ee;border-radius:40px;text-decoration:none;font-size:13.5px;letter-spacing:.04em;" style-before="content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(115deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-18deg);animation:btnShine 3.4s ease-in-out infinite;">Explore the Craft</a>
+      <a href="Contact.dc.html" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;display:inline-block;padding:15px 32px;background:transparent;color:#6b5c63;border:1px solid rgba(107,92,99,0.35);border-radius:40px;text-decoration:none;font-size:13.5px;letter-spacing:.04em;">Get in Touch</a>
+    </div>
+
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .4s, transform .9s cubic-bezier(.2,.7,.2,1) .4s;width:min(560px,80vw);overflow:hidden;margin-top:52px;-webkit-mask-image:linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);mask-image:linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);">
+      <div style="display:flex;width:max-content;gap:36px;white-space:nowrap;animation:marquee 20s linear infinite;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#a7a0a5;">
+        <span>Bags &amp; Totes &middot; Home Decor &middot; Keychains &middot; Clothing &middot; Custom Gifts &middot;</span>
+        <span>Bags &amp; Totes &middot; Home Decor &middot; Keychains &middot; Clothing &middot; Custom Gifts &middot;</span>
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:1px;background:linear-gradient(to bottom, rgba(107,92,99,0.6), transparent);animation:cuePulse 2.6s ease-in-out infinite;"></div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story" style="padding:120px clamp(24px,6vw,64px);max-width:1180px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:start;">
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);">
+        <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#a7a0a5;margin-bottom:14px;">Our Story</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.15;margin:0;">Every piece carries a story.</h2>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1) .08s, transform .8s cubic-bezier(.2,.7,.2,1) .08s;font-size:16.5px;line-height:1.85;color:#6b5c63;">
+        <p style="margin:0 0 22px;">We're a home-grown crochet brand, led by a passionate mom who believes every handmade piece carries a story. What began as a love for crochet has grown into a small business built on creativity, care, and community.</p>
+        <p style="margin:0 0 22px;">Our goal is simple: beautiful, handcrafted pieces at honest prices, without compromising on quality. Every piece is made with patience, love, and attention to detail.</p>
+        <p style="margin:0;color:#a7a0a5;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:19px;">Thank you for supporting our small business &mdash; every order helps us keep the art of crochet alive, one stitch at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="line-height:0;overflow:hidden;">
+    <svg viewBox="0 0 1440 60" width="100%" height="50" preserveAspectRatio="none" style="display:block;"><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#6b5c63"></path></svg>
+  </div>
+
+  <!-- MORE THAN CROCHET (full bleed statement) -->
+  <section style="background:#6b5c63;color:#fef5ee;padding:130px clamp(24px,6vw,64px);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;border:1px solid rgba(254,245,238,0.12);"></div>
+    <div style="position:absolute;bottom:-90px;left:-40px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(254,245,238,0.1);"></div>
+    <div style="max-width:900px;margin:0 auto;text-align:center;position:relative;">
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b67a88;margin-bottom:20px;">More Than Crochet</div>
+      <h2 data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.2,.7,.2,1) .08s, transform .85s cubic-bezier(.2,.7,.2,1) .08s;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(1.9rem,4vw,3.1rem);line-height:1.25;margin:0 0 30px;">For years, crochet was seen as something only grandmothers do. We're here to change that.</h2>
+      <p data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.2,.7,.2,1) .16s, transform .85s cubic-bezier(.2,.7,.2,1) .16s;font-size:16px;line-height:1.8;color:rgba(254,245,238,0.75);margin:0 0 20px;">It's an art form without age limits &mdash; a single skein can become a bag, a keychain, a piece of home decor, clothing, or a custom gift. If you can imagine it, crochet can bring it to life.</p>
+      <p data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.2,.7,.2,1) .24s, transform .85s cubic-bezier(.2,.7,.2,1) .24s;font-size:16px;line-height:1.8;color:rgba(254,245,238,0.75);margin:0;">Beyond the finished piece, crochet is calming and mindful &mdash; a gentle rhythm that offers a creative break from the pace of everyday life.</p>
+    </div>
+  </section>
+
+  <div style="line-height:0;overflow:hidden;transform:rotate(180deg);">
+    <svg viewBox="0 0 1440 60" width="100%" height="50" preserveAspectRatio="none" style="display:block;"><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#6b5c63"></path></svg>
+  </div>
+
+  <!-- MEET THE TEAM -->
+  <section style="padding:130px clamp(24px,6vw,64px);max-width:1180px;margin:0 auto;">
+
+    <!-- Full-width team group photo -->
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);border-radius:12px;overflow:hidden;margin-bottom:56px;">
+      <img src="assets/team-group.jpeg" alt="The Handmade by Maa team together" style="width:100%;height:clamp(280px,40vw,520px);object-fit:cover;object-position:center 25%;display:block;" loading="lazy"/>
+    </div>
+
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1) .06s, transform .8s cubic-bezier(.2,.7,.2,1) .06s;text-align:center;max-width:640px;margin:0 auto 64px;">
+      <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#a7a0a5;margin-bottom:14px;">Meet the Team</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.2;margin:0;">The hands behind every stitch.</h2>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px 28px;">
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-founder.jpg" alt="Krupa Vaishnav" style="width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Krupa Vaishnav</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Founder &amp; Lead Maker</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">The heart and soul of Handmade by Maa &mdash; every creation begins in her hands, crafted with patience, precision, and love.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .06s, transform .7s cubic-bezier(.2,.7,.2,1) .06s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-1.jpg" alt="Nupur Vaishnav" style="width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Nupur Vaishnav</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Co-Founder &middot; Content &amp; Branding</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">A dental student and cosmetologist who believes true artistry lies in precision, patience, and creativity &mdash; the voice behind our brand's stories.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .12s, transform .7s cubic-bezier(.2,.7,.2,1) .12s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-2.jpg" alt="Saumya Vaishnav" style="width:100%;height:180px;object-fit:cover;object-position:center 22%;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Saumya Vaishnav</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Founder &middot; Operations &amp; Management</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">Combines creativity, entrepreneurship, and community &mdash; passionate about organizing, problem-solving, and turning ideas into reality.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .18s, transform .7s cubic-bezier(.2,.7,.2,1) .18s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-3.jpg" alt="Deshna Shah" style="width:100%;height:180px;object-fit:cover;object-position:center 16%;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Deshna Shah</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Creativity &amp; Strategy Head</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">A psychology student with a curious mind, expressing creativity through dancing, painting, and crocheting.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .24s, transform .7s cubic-bezier(.2,.7,.2,1) .24s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-4.jpg" alt="Maithilee Jhala" style="width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Maithilee Jhala</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Social Media Head</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">Shapes how our brand connects with people online, turning ideas into content that reflects the warmth behind every creation.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .3s, transform .7s cubic-bezier(.2,.7,.2,1) .3s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-5.jpg" alt="Dhyani Patel" style="width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Dhyani Patel</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Marketing &amp; Psychology</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">A psychology student with a minor in marketing, who loves cooking, spreading positive vibes, and keeping things fun.</p>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="flex:1 1 250px;max-width:260px;opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .36s, transform .7s cubic-bezier(.2,.7,.2,1) .36s, box-shadow .3s ease, background .3s ease;text-align:center;border-radius:10px;padding:14px;" style-hover="box-shadow:0 14px 30px rgba(107,92,99,0.14);background:#fff9f2;">
+        <img src="assets/team-6.jpg" alt="Nirmit Thakkar" style="width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;" loading="lazy"/>
+        <div style="margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:18px;">Nirmit Thakkar</div>
+        <div style="font-size:12px;letter-spacing:.05em;color:#a7a0a5;text-transform:uppercase;margin-top:4px;">Designing &amp; Logistics Head</div>
+        <p style="font-size:13px;line-height:1.6;color:#a7a0a5;margin:10px 0 0;">Ensures every creation is presented beautifully and reaches its destination with care, from design refinement to delivery.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="display:flex;align-items:center;justify-content:center;gap:14px;max-width:200px;margin:0 auto;padding:0 24px;">
+    <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(107,92,99,0.3));"></div>
+    <div style="width:6px;height:6px;border-radius:50%;background:#a7a0a5;"></div>
+    <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(107,92,99,0.3));"></div>
+  </div>
+
+  <!-- WORKSHOPS & CLASSES -->
+  <section style="background:#e9d6d9;padding:120px clamp(24px,6vw,64px);">
+    <div style="max-width:900px;margin:0 auto;text-align:center;">
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#a7a0a5;margin-bottom:16px;">Learn With Us</div>
+      <h2 data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.2,.7,.2,1) .06s, transform .85s cubic-bezier(.2,.7,.2,1) .06s;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.2;margin:0 0 24px;">Crochet Workshops &amp; Classes</h2>
+      <p data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.2,.7,.2,1) .12s, transform .85s cubic-bezier(.2,.7,.2,1) .12s;font-size:16px;line-height:1.85;color:#6b5c63;margin:0 0 34px;">Beyond creating pieces, we host beginner-friendly workshops and classes for anyone who wants to learn the craft &mdash; no experience necessary. Our aim is to make crochet modern, accessible, and inspiring for makers of every age, especially students and young creators.</p>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1) .18s, transform .8s cubic-bezier(.2,.7,.2,1) .18s;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:38px;">
+        <span style="font-size:12.5px;letter-spacing:.04em;color:#6b5c63;background:#fff9f2;border:1px solid rgba(107,92,99,0.15);padding:8px 18px;border-radius:30px;">Beginner Basics</span>
+        <span style="font-size:12.5px;letter-spacing:.04em;color:#6b5c63;background:#fff9f2;border:1px solid rgba(107,92,99,0.15);padding:8px 18px;border-radius:30px;">Small Group Sessions</span>
+        <span style="font-size:12.5px;letter-spacing:.04em;color:#6b5c63;background:#fff9f2;border:1px solid rgba(107,92,99,0.15);padding:8px 18px;border-radius:30px;">One-on-One</span>
+        <span style="font-size:12.5px;letter-spacing:.04em;color:#6b5c63;background:#fff9f2;border:1px solid rgba(107,92,99,0.15);padding:8px 18px;border-radius:30px;">Custom Requests</span>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1) .24s, transform .8s cubic-bezier(.2,.7,.2,1) .24s;">
+        <a href="Contact.dc.html" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;display:inline-block;padding:15px 34px;background:#6b5c63;color:#fef5ee;border-radius:40px;text-decoration:none;font-size:13.5px;letter-spacing:.04em;">Inquire About Classes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding:130px clamp(24px,6vw,64px);max-width:1180px;margin:0 auto;">
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);text-align:center;max-width:640px;margin:0 auto 64px;">
+      <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#a7a0a5;margin-bottom:14px;">Kind Words</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.2;margin:0;">From our community</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">The bag I ordered exceeded every expectation. You can feel the care in each stitch &mdash; it doesn't look like anything you'd find in a store.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">RP</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Riya Patel</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .06s, transform .7s cubic-bezier(.2,.7,.2,1) .06s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Ordered a custom baby gift set and it arrived even more beautiful than the photos. Krupa was so patient with my requests. Will absolutely order again.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">AM</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Ananya Mehta</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .12s, transform .7s cubic-bezier(.2,.7,.2,1) .12s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Gifted a crochet bunny set to my niece and she hasn't put it down since. The quality and attention to detail is unmatched. Highly recommend!</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">SD</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Sanya Desai</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .18s, transform .7s cubic-bezier(.2,.7,.2,1) .18s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">The home decor piece I bought is now the centerpiece of my living room. Everyone who visits asks where I got it &mdash; so proud to say it's handmade in Gujarat.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">KJ</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Kavya Joshi</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .24s, transform .7s cubic-bezier(.2,.7,.2,1) .24s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">I've ordered three custom keychains now, each one better than the last. Communication was smooth and delivery was right on time. A small business worth supporting.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">TS</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Tanvi Shah</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .3s, transform .7s cubic-bezier(.2,.7,.2,1) .3s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Booked a beginner workshop with the team and it was such a warm, welcoming experience. Left with a finished piece and a new hobby I love.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">PN</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Priya Nair</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .36s, transform .7s cubic-bezier(.2,.7,.2,1) .36s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">From the packaging to the product itself, everything felt so thoughtful. This is the kind of small business you want to keep coming back to.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">VR</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Vidhi Raval</span>
+        </div>
+      </div>
+      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .42s, transform .7s cubic-bezier(.2,.7,.2,1) .42s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Ordered a clothing piece for my daughter's birthday and the fit and finish were perfect. You can tell every piece is made with genuine love.</p>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">MB</span>
+          <span style="font-size:13.5px;color:#6b5c63;">Meera Bhatt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section style="background:#e9d6d9;padding:110px clamp(24px,6vw,64px);text-align:center;">
+    <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);max-width:620px;margin:0 auto;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(1.8rem,3.6vw,2.8rem);margin:0 0 26px;">Have a custom idea in mind?</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#6b5c63;margin:0 0 34px;">From a gift with a story to a piece made just for your space &mdash; we'd love to make it with you.</p>
+      <a href="Contact.dc.html" onMouseMove="{{ magnetMove }}" onMouseLeave="{{ magnetLeave }}" style="position:relative;overflow:hidden;transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;display:inline-block;padding:16px 38px;background:#6b5c63;color:#fef5ee;border-radius:40px;text-decoration:none;font-size:13.5px;letter-spacing:.04em;" style-before="content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(115deg,transparent,rgba(255,255,255,0.35),transparent);transform:skewX(-18deg);animation:btnShine 3.4s ease-in-out infinite;">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:56px clamp(24px,6vw,64px) 40px;border-top:1px solid rgba(107,92,99,0.1);position:relative;">
+    <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:min(220px,60%);height:2px;background:linear-gradient(to right, transparent, #b67a88, transparent);"></div>
+    <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <img src="assets/logo.jpeg" alt="Handmade by Maa logo" style="width:80px;height:80px;object-fit:contain;"/>
+        <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px;">
+          <span style="font-family:'Alex Brush',cursive;font-size:34px;color:#6b5c63;line-height:1;">Handmade</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#6b5c63;">by Maa</span>
+        </span>
+      </div>
+      <div style="display:flex;gap:26px;">
+        <a href="Home.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Home</a>
+        <a href="Gallery.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Gallery</a>
+        <a href="Contact.dc.html" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">Contact</a>
+        <a href="https://instagram.com/handmadebymaa._" target="_blank" rel="noopener" style="font-size:13px;color:#a7a0a5;text-decoration:none;transition:color .25s ease;" style-hover="color:#6b5c63;">handmadebymaa._</a>
+      </div>
+      <div style="font-size:12px;color:#a7a0a5;">&copy; 2026 Handmade by Maa</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { isMobile: false, menuOpen: false };
+  revealEls = [];
+
+  checkMobile = () => {
+    const isMobile = window.innerWidth < 760;
+    if (isMobile !== this.state.isMobile) this.setState({ isMobile });
+  };
+  toggleMenu = () => this.setState((s) => ({ menuOpen: !s.menuOpen }));
+  closeMenu = () => this.setState({ menuOpen: false });
+  stopProp = (e) => e.stopPropagation();
+
+  addReveal = (el) => {
+    if (el && this.revealEls.indexOf(el) === -1) this.revealEls.push(el);
+  };
+  setCursorRef = (el) => { this.cursorRef = el; };
+  setHeroRef = (el) => { this.heroRef = el; };
+  setNavRef = (el) => { this.navRef = el; };
+
+  updateNavShadow = () => {
+    if (!this.navRef) return;
+    if (window.scrollY > 40) {
+      this.navRef.style.boxShadow = '0 6px 24px rgba(107,92,99,0.12)';
+      this.navRef.style.padding = '8px clamp(16px,5vw,56px)';
+    } else {
+      this.navRef.style.boxShadow = 'none';
+      this.navRef.style.padding = '12px clamp(16px,5vw,56px)';
+    }
+  };
+
+  magnetMove = (e) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+  };
+  magnetLeave = (e) => {
+    e.currentTarget.style.transform = 'translate(0,0)';
+  };
+
+  checkReveals = () => {
+    const vh = window.innerHeight;
+    document.querySelectorAll('[data-reveal="true"]:not([data-revealed])').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh * 0.92 && rect.bottom > 0) {
+        el.dataset.revealed = '1';
+        const parent = el.parentElement;
+        const group = parent ? Array.from(parent.children).filter((c) => c.getAttribute && c.getAttribute('data-reveal') === 'true') : [el];
+        const idx = group.indexOf(el);
+        if (idx > 0 && !el.style.transitionDelay) {
+          el.style.transitionDelay = (idx * 90) + 'ms';
+        }
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        setTimeout(() => { el.style.transition = 'none'; }, 1100);
+      }
+    });
+  };
+
+  componentDidMount() {
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+
+    this.checkReveals();
+    this.updateNavShadow();
+    this._onScroll = () => { this.checkReveals(); this.updateNavShadow(); };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this.checkReveals);
+    this._revealInterval = setInterval(this.checkReveals, 250);
+
+    this.cursorPos = { x: -100, y: -100 };
+    this.cursorTarget = { x: -100, y: -100 };
+    this._onMove = (e) => {
+      this.cursorTarget.x = e.clientX;
+      this.cursorTarget.y = e.clientY;
+    };
+    window.addEventListener('mousemove', this._onMove);
+    const tick = () => {
+      this.cursorPos.x += (this.cursorTarget.x - this.cursorPos.x) * 0.18;
+      this.cursorPos.y += (this.cursorTarget.y - this.cursorPos.y) * 0.18;
+      if (this.cursorRef) {
+        this.cursorRef.style.transform = `translate(${this.cursorPos.x}px, ${this.cursorPos.y}px)`;
+      }
+      this.checkReveals();
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._revealInterval) clearInterval(this._revealInterval);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this.checkReveals);
+    window.removeEventListener('resize', this.checkMobile);
+    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
+  }
+
+  renderVals() {
+    return {
+      addReveal: this.addReveal,
+      setCursorRef: this.setCursorRef,
+      setHeroRef: this.setHeroRef,
+      setNavRef: this.setNavRef,
+      magnetMove: this.magnetMove,
+      magnetLeave: this.magnetLeave,
+      isMobile: this.state.isMobile,
+      isDesktop: !this.state.isMobile,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: this.toggleMenu,
+      closeMenu: this.closeMenu,
+      stopProp: this.stopProp,
+    };
+  }
+}
+</script>
+</body>
+</html>

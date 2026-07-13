@@ -1,0 +1,9 @@
+{
+  "name": "handmade-by-maa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Handmade by Maa — crochet studio website (static site, no build step required).",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
