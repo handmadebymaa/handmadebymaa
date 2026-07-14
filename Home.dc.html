@@ -34,9 +34,6 @@
 
 <div style="font-family:'Jost',sans-serif;color:#6b5c63;background:#fef5ee;min-height:100vh;overflow-x:hidden;">
 
-  <!-- cursor ring -->
-  <div ref="{{ setCursorRef }}" style="position:fixed;top:0;left:0;width:30px;height:30px;margin-left:-15px;margin-top:-15px;border-radius:50%;border:1px solid rgba(107,92,99,0.55);pointer-events:none;z-index:9999;opacity:0.7;"></div>
-
   <!-- NAV -->
   <div ref="{{ setNavRef }}" style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px clamp(16px,5vw,56px);background:rgba(254,245,238,0.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(107,92,99,0.08);transition:box-shadow .3s ease, padding .3s ease;">
     <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#6b5c63;">
@@ -241,78 +238,17 @@
       <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.2;margin:0;">From our community</h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">The bag I ordered exceeded every expectation. You can feel the care in each stitch &mdash; it doesn't look like anything you'd find in a store.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">RP</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Riya Patel</span>
+      <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="2">
+        <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
+          <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;white-space:pre-line;">{{ t.quote }}</p>
+          <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
+            <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">{{ t.initials }}</span>
+            <span style="font-size:13.5px;color:#6b5c63;">{{ t.name }}</span>
+          </div>
         </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .06s, transform .7s cubic-bezier(.2,.7,.2,1) .06s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Ordered a custom baby gift set and it arrived even more beautiful than the photos. Krupa was so patient with my requests. Will absolutely order again.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">AM</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Ananya Mehta</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .12s, transform .7s cubic-bezier(.2,.7,.2,1) .12s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Gifted a crochet bunny set to my niece and she hasn't put it down since. The quality and attention to detail is unmatched. Highly recommend!</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">SD</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Sanya Desai</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .18s, transform .7s cubic-bezier(.2,.7,.2,1) .18s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">The home decor piece I bought is now the centerpiece of my living room. Everyone who visits asks where I got it &mdash; so proud to say it's handmade in Gujarat.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">KJ</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Kavya Joshi</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .24s, transform .7s cubic-bezier(.2,.7,.2,1) .24s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">I've ordered three custom keychains now, each one better than the last. Communication was smooth and delivery was right on time. A small business worth supporting.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">TS</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Tanvi Shah</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .3s, transform .7s cubic-bezier(.2,.7,.2,1) .3s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Booked a beginner workshop with the team and it was such a warm, welcoming experience. Left with a finished piece and a new hobby I love.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">PN</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Priya Nair</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .36s, transform .7s cubic-bezier(.2,.7,.2,1) .36s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">From the packaging to the product itself, everything felt so thoughtful. This is the kind of small business you want to keep coming back to.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">VR</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Vidhi Raval</span>
-        </div>
-      </div>
-      <div data-reveal="true" ref="{{ addReveal }}" style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) .42s, transform .7s cubic-bezier(.2,.7,.2,1) .42s, border-color .3s ease, box-shadow .3s ease;border:1px solid rgba(107,92,99,0.14);border-radius:6px;padding:32px 26px;display:flex;flex-direction:column;" style-hover="border-color:#b67a88;box-shadow:0 12px 26px rgba(107,92,99,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#b67a88;line-height:1;margin-bottom:6px;">&ldquo;</div>
-        <div style="color:#c9973f;font-size:13px;letter-spacing:.1em;margin-bottom:14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p style="font-size:14.5px;line-height:1.75;color:#6b5c63;margin:0 0 22px;flex:1;">Ordered a clothing piece for my daughter's birthday and the fit and finish were perfect. You can tell every piece is made with genuine love.</p>
-        <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(107,92,99,0.1);">
-          <span style="width:36px;height:36px;border-radius:50%;background:#e9d6d9;color:#8f5d69;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;">MB</span>
-          <span style="font-size:13.5px;color:#6b5c63;">Meera Bhatt</span>
-        </div>
-      </div>
+      </sc-for>
     </div>
   </section>
 
@@ -353,6 +289,14 @@ class Component extends DCLogic {
   state = { isMobile: false, menuOpen: false };
   revealEls = [];
 
+  // --- Customer reviews ---------------------------------------------------
+  // To add a new review, just add another { quote, name, initials } object
+  // to this list. The layout, stars, and animations update automatically.
+  testimonials = [
+    { quote: "Mor pankh keychain bavu jj fine bani chhe 👏🏻🌷", name: "Jayshri aunty", initials: "JA" },
+    { quote: "Sacche packaging bahu j must che 👏\nAmazing quality and beautiful", name: "Dipti Patel", initials: "DP" },
+  ];
+
   checkMobile = () => {
     const isMobile = window.innerWidth < 760;
     if (isMobile !== this.state.isMobile) this.setState({ isMobile });
@@ -364,7 +308,6 @@ class Component extends DCLogic {
   addReveal = (el) => {
     if (el && this.revealEls.indexOf(el) === -1) this.revealEls.push(el);
   };
-  setCursorRef = (el) => { this.cursorRef = el; };
   setHeroRef = (el) => { this.heroRef = el; };
   setNavRef = (el) => { this.navRef = el; };
 
@@ -419,39 +362,18 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     window.addEventListener('resize', this.checkReveals);
     this._revealInterval = setInterval(this.checkReveals, 250);
-
-    this.cursorPos = { x: -100, y: -100 };
-    this.cursorTarget = { x: -100, y: -100 };
-    this._onMove = (e) => {
-      this.cursorTarget.x = e.clientX;
-      this.cursorTarget.y = e.clientY;
-    };
-    window.addEventListener('mousemove', this._onMove);
-    const tick = () => {
-      this.cursorPos.x += (this.cursorTarget.x - this.cursorPos.x) * 0.18;
-      this.cursorPos.y += (this.cursorTarget.y - this.cursorPos.y) * 0.18;
-      if (this.cursorRef) {
-        this.cursorRef.style.transform = `translate(${this.cursorPos.x}px, ${this.cursorPos.y}px)`;
-      }
-      this.checkReveals();
-      this._raf = requestAnimationFrame(tick);
-    };
-    tick();
   }
 
   componentWillUnmount() {
-    if (this._raf) cancelAnimationFrame(this._raf);
     if (this._revealInterval) clearInterval(this._revealInterval);
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this.checkReveals);
     window.removeEventListener('resize', this.checkMobile);
-    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
   }
 
   renderVals() {
     return {
       addReveal: this.addReveal,
-      setCursorRef: this.setCursorRef,
       setHeroRef: this.setHeroRef,
       setNavRef: this.setNavRef,
       magnetMove: this.magnetMove,
@@ -462,6 +384,7 @@ class Component extends DCLogic {
       toggleMenu: this.toggleMenu,
       closeMenu: this.closeMenu,
       stopProp: this.stopProp,
+      testimonials: this.testimonials,
     };
   }
 }
