@@ -25,8 +25,6 @@
 
 <div style="font-family:'Jost',sans-serif;color:#6b5c63;background:#fef5ee;min-height:100vh;">
 
-  <div ref="{{ setCursorRef }}" style="position:fixed;top:0;left:0;width:30px;height:30px;margin-left:-15px;margin-top:-15px;border-radius:50%;border:1px solid rgba(107,92,99,0.55);pointer-events:none;z-index:9999;opacity:0.7;"></div>
-
   <!-- NAV -->
   <div style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px clamp(16px,5vw,56px);background:rgba(254,245,238,0.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(107,92,99,0.08);">
     <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#6b5c63;">
@@ -211,8 +209,6 @@ class Component extends DCLogic {
   addReveal = (el) => {
     if (el && this.revealEls.indexOf(el) === -1) this.revealEls.push(el);
   };
-  setCursorRef = (el) => { this.cursorRef = el; };
-
   magnetMove = (e) => {
     const el = e.currentTarget;
     const r = el.getBoundingClientRect();
@@ -243,32 +239,17 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this.checkReveals, { passive: true });
     window.addEventListener('resize', this.checkReveals);
     this._revealInterval = setInterval(this.checkReveals, 250);
-
-    this.cursorPos = { x: -100, y: -100 };
-    this.cursorTarget = { x: -100, y: -100 };
-    this._onMove = (e) => { this.cursorTarget.x = e.clientX; this.cursorTarget.y = e.clientY; };
-    window.addEventListener('mousemove', this._onMove);
-    const tick = () => {
-      this.cursorPos.x += (this.cursorTarget.x - this.cursorPos.x) * 0.18;
-      this.cursorPos.y += (this.cursorTarget.y - this.cursorPos.y) * 0.18;
-      if (this.cursorRef) this.cursorRef.style.transform = `translate(${this.cursorPos.x}px, ${this.cursorPos.y}px)`;
-      this.checkReveals();
-      this._raf = requestAnimationFrame(tick);
-    };
-    tick();
   }
 
   componentWillUnmount() {
-    if (this._raf) cancelAnimationFrame(this._raf);
     if (this._revealInterval) clearInterval(this._revealInterval);
     window.removeEventListener('scroll', this.checkReveals);
     window.removeEventListener('resize', this.checkReveals);
     window.removeEventListener('resize', this.checkMobile);
-    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
   }
 
   renderVals() {
-    return { addReveal: this.addReveal, setCursorRef: this.setCursorRef, magnetMove: this.magnetMove, magnetLeave: this.magnetLeave, isMobile: this.state.isMobile, isDesktop: !this.state.isMobile, menuOpen: this.state.menuOpen, toggleMenu: this.toggleMenu, closeMenu: this.closeMenu, stopProp: this.stopProp };
+    return { addReveal: this.addReveal, magnetMove: this.magnetMove, magnetLeave: this.magnetLeave, isMobile: this.state.isMobile, isDesktop: !this.state.isMobile, menuOpen: this.state.menuOpen, toggleMenu: this.toggleMenu, closeMenu: this.closeMenu, stopProp: this.stopProp };
   }
 }
 </script>
